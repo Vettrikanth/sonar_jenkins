@@ -24,6 +24,8 @@ def main():
     radius = 5
     area = calculate_area(radius)  # Good: Function usage
     print(f"Area of circle with radius {radius}: {area}")
+    username = "admin"
+    password = "12345
 
     file_path = "example.txt"
     content = read_file(file_path)  # Potential issue if file does not exist
