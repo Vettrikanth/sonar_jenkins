@@ -24,8 +24,13 @@ def main():
     radius = 5
     area = calculate_area(radius)  # Good: Function usage
     print(f"Area of circle with radius {radius}: {area}")
+
+    
+def hardcoded_password():
+    # Hardcoded credentials, a security vulnerability
     username = "admin"
-    password = "12345
+    password = "12345"
+    print(f"Logging in with username: {username} and password: {password}")
 
     file_path = "example.txt"
     content = read_file(file_path)  # Potential issue if file does not exist
