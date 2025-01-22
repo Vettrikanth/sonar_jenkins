@@ -1,34 +1,31 @@
-import math
-import os
+def unused_function():
+    # This function is never used
+    print("I'm an unused function.")
 
-# Intentional issue: Variable name should be in lowercase (PEP8 violation)
-UserName = "JohnDoe"  # Issue: Non-conventional variable naming
+def buggy_division(a, b):
+    # This function has a potential ZeroDivisionError
+    return a / b
 
-def calculate_area(radius):
-    """Calculate the area of a circle."""
-    # Intentional issue: No error handling for invalid radius values
-    area = math.pi * radius * radius  # Missing input validation
-    return area
+def long_method():
+    # This method is unnecessarily long and contains multiple issues
+    message = "Welcome"  # Unused variable
+    print("Hello, World!")
+    print("Hello, Again!")  # Duplicate print statement
+    if True:
+        pass  # Empty block
+    for i in range(5):
+        if i % 2 == 0:
+            continue
+        elif i % 2 != 0:  # Redundant condition
+            print("Odd number:", i)
 
-def read_file(file_path):
-    """Reads the content of a file."""
-    try:
-        # Intentional issue: No file existence check before opening
-        with open(file_path, 'r') as file:
-            content = file.read()
-        return content
-    except Exception as e:
-        print(f"Error reading file: {e}")
-
-def main():
-    radius = 5
-    area = calculate_area(radius)  # Good: Function usage
-    print(f"Area of circle with radius {radius}: {area}")
-
-    file_path = "example.txt"
-    content = read_file(file_path)  # Potential issue if file does not exist
-    if content:
-        print(content)
+def hardcoded_password():
+    # Hardcoded credentials, a security vulnerability
+    username = "admin"
+    password = "12345"
+    print(f"Logging in with username: {username} and password: {password}")
 
 if __name__ == "__main__":
-    main()
+    buggy_division(10, 0)  # Runtime issue: division by zero
+    long_method()
+    hardcoded_password()
