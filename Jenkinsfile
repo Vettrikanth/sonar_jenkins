@@ -25,6 +25,13 @@ pipeline {
                 checkout scm
             }
         }
+    stages {
+        stage('Test Docker') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+    }
 
         stage('Git Checkout') {
             steps {
