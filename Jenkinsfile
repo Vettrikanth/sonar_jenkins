@@ -15,6 +15,15 @@ node {
     checkout scm
   }
 
+  stage('Git checkout')
+  {
+  steps
+    {
+      git branch: 'main', url: 'https://github.com/Vettrikanth/sonar_jenkins.git'
+    }
+  }
+  
+
   stage ('Build Docker image')
   {
   steps
@@ -22,6 +31,8 @@ node {
       sh 'docker.build("sonarimage"+"$BUILD_NUMBER")'
     }
     }
+
+  
   stage('SonarQube Analysis') {
     def scannerHome = tool 'scanner'; // Ensure 'scanner' matches the configured name in Jenkins
     withSonarQubeEnv() {
