@@ -17,7 +17,7 @@ pipeline {
     environment {
         SCANNER_HOME = tool name: 'scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
         DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-jenkins-token'
-        DOCKER_HUB_REPO = 'https://hub.docker.com/repositories/vettrikanth'
+        DOCKER_HUB_REPO = 'vettrikanth/sonarimage'
     }
 
     stages {
@@ -43,7 +43,26 @@ pipeline {
             steps {
                 script {
                     def buildNumber = env.BUILD_NUMBER ?: "latest"
-                    sh "docker build -t sonarimage:${buildNumber} ."
+                    sh "docker build -t ${DOCKER_HUB_REPO}:${buildNumber} ."
+                }
+            }
+        }
+
+        stage('Docker Login') {
+            steps {
+                script {
+                    withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                    }
+                }
+            }
+        }
+
+        stage('Push Docker Image to Docker Hub') {
+            steps {
+                script {
+                    def buildNumber = env.BUILD_NUMBER ?: "latest"
+                    sh "docker push ${DOCKER_HUB_REPO}:${buildNumber}"
                 }
             }
         }
