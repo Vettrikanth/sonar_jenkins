@@ -16,6 +16,8 @@ pipeline {
 
     environment {
         SCANNER_HOME = tool name: 'scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-jenkins-token'
+        DOCKER_HUB_REPO = 'https://hub.docker.com/repositories/vettrikanth'
     }
 
     stages {
