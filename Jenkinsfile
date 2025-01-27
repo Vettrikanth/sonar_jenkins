@@ -71,18 +71,56 @@
 //     }
 // }
 
+
+
+
 pipeline {
     agent {
         docker {
-            image 'docker:latest'
-            args '-v /var/run/docker.sock:/var/run/docker.sock' // Mount Docker socket from host
+            image 'docker:latest'  // Use official Docker image as the agent
+            args '-v /var/run/docker.sock:/var/run/docker.sock'  // Mount Docker socket from host
         }
     }
 
+    environment {
+        SCANNER_HOME = tool name: 'scanner', type: 'hudson.plugins.sonar.SonarRunnerInstallation'
+        DOCKER_HUB_CREDENTIALS_ID = 'dockerhub-jenkins-token'
+        DOCKER_HUB_REPO = 'https://hub.docker.com/repositories/vettrikanth'
+    }
+
     stages {
+        stage('SCM') {
+            steps {
+                checkout scm
+            }
+        }
+
+        stage('Git Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Vettrikanth/sonar_jenkins.git'
+            }
+        }
+
+        stage('Test Docker') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
-                sh 'docker build -t vettrikanth/sonarimage:${BUILD_NUMBER} .'
+                script {
+                    def buildNumber = env.BUILD_NUMBER ?: "latest"
+                    sh "docker build -t vettrikanth/sonarimage:${buildNumber} ."
+                }
+            }
+        }
+
+        stage('SonarQube Analysis') {
+            steps {
+                withSonarQubeEnv('SonarQube') { // Replace 'SonarQube' with your actual SonarQube server configuration name
+                    sh "${SCANNER_HOME}/bin/sonar-scanner -X"
+                }
             }
         }
     }
