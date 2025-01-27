@@ -42,11 +42,13 @@ pipeline {
         //     }
         // }
 
-        stage('Do3. Docker-in-Docker (If Jenkins is Running in a Docker Container):cker Login') {
+     stage('Docker Login') {
             steps {
                 script {
                     withCredentials([usernamePassword(credentialsId: DOCKER_HUB_CREDENTIALS_ID, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-                        sh "echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin"
+                        sh """
+                            echo \$DOCKER_PASSWORD | docker login -u \$DOCKER_USERNAME --password-stdin
+                        """
                     }
                 }
             }
