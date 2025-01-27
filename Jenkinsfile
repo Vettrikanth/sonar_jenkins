@@ -33,14 +33,14 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    def buildNumber = env.BUILD_NUMBER ?: "latest"
-                    sh "docker build -t ${DOCKER_HUB_REPO}:${buildNumber} ."
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             def buildNumber = env.BUILD_NUMBER ?: "latest"
+        //             sh "docker build -t ${DOCKER_HUB_REPO}:${buildNumber} ."
+        //         }
+        //     }
+        // }
 
         stage('Do3. Docker-in-Docker (If Jenkins is Running in a Docker Container):cker Login') {
             steps {
