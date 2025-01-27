@@ -20,5 +20,13 @@ node {
       sh "${scannerHome}/bin/sonar-scanner -X"
     }
   }
+  stage ('Build Docker image')
+  {
+  steps
+    {
+      sh 'docker.build("sonarimage"+"$BUILD_NUMBER")'
+    }
+  }
+  
 }
 
