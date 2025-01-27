@@ -25,20 +25,19 @@ pipeline {
                 checkout scm
             }
         }
-    stages {
-        stage('Test Docker') {
-            steps {
-                sh 'docker --version'
-            }
-        }
-    }
 
         stage('Git Checkout') {
             steps {
                 git branch: 'main', url: 'https://github.com/Vettrikanth/sonar_jenkins.git'
             }
         }
-
+        stages {
+        stage('Test Docker') {
+            steps {
+                sh 'docker --version'
+            }
+        }
+    }
         stage('Build Docker Image') {
             steps {
                 script {
